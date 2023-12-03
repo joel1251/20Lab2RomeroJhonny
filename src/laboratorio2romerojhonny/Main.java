@@ -9,20 +9,23 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        opccionMenu Opmenu = new opccionMenu();
-         ArrayList <String> caratula =new ArrayList();//crear arrarlist
-     caratula.add("UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE");///metiendo datos a array list
-     caratula.add("INTEGRANTES: ROMERO JHONNY");///metiendo datos a array list
-     caratula.add("CURSO: 2 ITIN");///metiendo datos a array list
-     caratula.add("MATERIA: POO");///metiendo datos a array list
-     caratula.add("DOCENTE: VERONICA MARTINEZ");///metiendo datos a array list
-     caratula.add("LABORATORIO 2 ");///metiendo datos a array list
-     for (String linea : caratula) {
-            System.out.println(linea);
+        InstanciaOpcionMenu VariableOpcionMenu = new InstanciaOpcionMenu();
+        ArrayList<String> PortadaArreglo = new ArrayList<>(); // Corregir la creación del ArrayList
+        PortadaArreglo.add("Universidad de las Fuerzas Armadas Espe");
+        PortadaArreglo.add("Nombre: Romero Jhonny");
+        PortadaArreglo.add("Curso: 2 A");
+        PortadaArreglo.add("Materia: Programacion Orientada a Objetos");
+        PortadaArreglo.add("Docente: Veronica Martinez");
+        PortadaArreglo.add("Laboratorio 2");
+
+        for (String salidaDeDatos : PortadaArreglo) {
+            System.out.println(salidaDeDatos);
         }
-        Opmenu.Opciones();
+
+        VariableOpcionMenu.MenuDeOpciones(); // Utilizar la variable correcta
     }
 }
+
 
 // Definición de la clase Menu
 class Menu {
@@ -42,6 +45,7 @@ class Menu {
         return literal;
     }
 
+    
     public String getDecoracion() {
         return decoracion;
     }
@@ -51,17 +55,17 @@ class Menu {
     }
 }
 
-class opccionMenu {
-    int opMenu;
+class InstanciaOpcionMenu {
+    int variableAlmacenaUsuario;//Variable del menu
 
-    public void Opciones() {
-        Scanner scan = new Scanner(System.in);
+    public void MenuDeOpciones() {
+        Scanner scan = new Scanner(System.in);//Objeto Scanner para obtener la entreda de usuario
         do {
-            GenerarMenu menu = new GenerarMenu();
+            menuPrincipalGenerado menu = new menuPrincipalGenerado();
             menu.generarMenu();
             System.out.println("Ingrese una opcion: ");
-            opMenu = scan.nextInt();
-            switch (opMenu) {
+            variableAlmacenaUsuario = scan.nextInt();
+            switch (variableAlmacenaUsuario) {
                 case 1:
                     // Tu lógica para la opción 1
                     break;
@@ -75,11 +79,11 @@ class opccionMenu {
                     System.out.println("Error. Opción no válida");
                     break;
             }
-        } while (opMenu != 3);
+        } while (variableAlmacenaUsuario != 3);
     }
 }
 
-class GenerarMenu {
+class menuPrincipalGenerado {
 
     Menu menuOp[] = new Menu[3];
 
@@ -107,6 +111,6 @@ class GenerarMenu {
             } catch (IOException e) {
                 System.out.println("Error. " + e.getMessage());
             }
-        }
+        }  
     }
 }
