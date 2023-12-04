@@ -9,36 +9,53 @@ import java.util.Scanner;//Llamamos para que el usuario ingrese una variable
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.io.BufferedWriter;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        InstanciaOpcionMenu VariableOpcionMenu = new InstanciaOpcionMenu();
-        ArrayList<String> PortadaArreglo = new ArrayList<>();
-        PortadaArreglo.add("Universidad de las Fuerzas Armadas Espe");
-        PortadaArreglo.add("Nombre: Romero Jhonny");
-        PortadaArreglo.add("Curso: 2 A");
-        PortadaArreglo.add("Materia: Programacion Orientada a Objetos");
-        PortadaArreglo.add("Docente: Veronica Martinez");
-        PortadaArreglo.add("Laboratorio 2");
+        // Guardar la información de los artículos al inicio del programa
+        guardarArticulos();
 
-        for (String salidaDeDatos : PortadaArreglo) {
+        InstanciaOpcionMenu variableOpcionMenu = new InstanciaOpcionMenu();
+        ArrayList<String> portadaArreglo = new ArrayList<>();
+        portadaArreglo.add("Universidad de las Fuerzas Armadas Espe");
+        portadaArreglo.add("Nombre: Romero Jhonny");
+        portadaArreglo.add("Curso: 2 A");
+        portadaArreglo.add("Materia: Programacion Orientada a Objetos");
+        portadaArreglo.add("Docente: Veronica Martinez");
+        portadaArreglo.add("Laboratorio 2");
+
+        for (String salidaDeDatos : portadaArreglo) {
             System.out.println(salidaDeDatos);
         }
 
-        VariableOpcionMenu.MenuDeOpciones();
+        variableOpcionMenu.menuDeOpciones();
+    }
+
+    // Método para guardar la información de los artículos al inicio
+    private static void guardarArticulos() {
+        try (FileWriter fw = new FileWriter("articulos.csv", true)) {
+            fw.write("Computadora,MarcaX,999.99\n");
+            fw.write("Audifonos,MarcaY,49.99\n");
+            System.out.println("Información guardada correctamente en articulos.csv");
+        } catch (IOException e) {
+            System.out.println("Error al guardar en el archivo CSV: " + e.getMessage());
+        }
     }
 }
 
 class InstanciaOpcionMenu {
     int variableAlmacenaUsuario;
+    List<String> carrito = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
 
-    public void MenuDeOpciones() {
-        Scanner scan = new Scanner(System.in);
+    public void menuDeOpciones() {
         do {
             menuPrincipalGenerado menu = new menuPrincipalGenerado();
             menu.generarMenu();
             System.out.println("Ingrese una opcion: ");
-            variableAlmacenaUsuario = scan.nextInt();
+            variableAlmacenaUsuario = obtenerNumeroInput();
+
             switch (variableAlmacenaUsuario) {
                 case 1:
                     System.out.println("Opcion 1");
@@ -47,6 +64,8 @@ class InstanciaOpcionMenu {
                     break;
                 case 2:
                     System.out.println("Opcion 2");
+                    // Agrega lógica para mostrar el carrito
+                    mostrarCarrito();
                     break;
                 case 3:
                     System.out.println("Gracias por usar");
@@ -59,17 +78,59 @@ class InstanciaOpcionMenu {
     }
 
     private void mostrarArticulos() {
+        // Lógica para mostrar información desde el archivo CSV
+        List<String> articulos = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("articulos.csv"))) {
             String linea;
             System.out.println("Lista de Artículos:");
 
+            int index = 1;
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(",");
-                System.out.println("Marca/Modelo: " + campos[0] + ", Precio: $" + campos[1]);
+                String articuloInfo = "Marca/Modelo: " + campos[0] + ", Precio: $" + campos[2];
+                System.out.println(index + ". " + articuloInfo);
+                articulos.add(articuloInfo);
+                index++;
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo CSV: " + e.getMessage());
+            return;
         }
+
+        // Permitir al usuario seleccionar un artículo
+        System.out.println("Seleccione un artículo ingresando su número (o 0 para volver):");
+        int seleccion = obtenerNumeroInput();
+
+        // Validar la selección
+        if (seleccion >= 1 && seleccion <= articulos.size()) {
+            System.out.println("Ha seleccionado: " + articulos.get(seleccion - 1));
+            // Agregar el artículo al carrito
+            carrito.add(articulos.get(seleccion - 1));
+            System.out.println("Artículo agregado al carrito.");
+        } else if (seleccion == 0) {
+            // Volver al menú principal
+        } else {
+            System.out.println("Selección no válida");
+        }
+    }
+
+    private void mostrarCarrito() {
+        if (carrito.isEmpty()) {
+            System.out.println("El carrito está vacío.");
+        } else {
+            System.out.println("Contenido del Carrito:");
+            for (String item : carrito) {
+                System.out.println(item);
+            }
+        }
+    }
+
+    private int obtenerNumeroInput() {
+        while (!scanner.hasNextInt()) {
+            System.out.println("Error. Ingrese un número válido.");
+            scanner.next(); // Limpiar el buffer del scanner
+        }
+        return scanner.nextInt();
     }
 }
 
