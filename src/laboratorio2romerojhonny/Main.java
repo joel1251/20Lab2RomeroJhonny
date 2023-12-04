@@ -1,10 +1,10 @@
 package laboratorio2romerojhonny;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.FileReader;//Para leer el archivo txt try catch 
+import java.io.FileWriter;//para escribir en el archivo txt
+import java.io.IOException;//para try catch  
+import java.util.ArrayList;//UtilizamosArreglos
+import java.util.Scanner;//Llamamos para que el usuario ingrese una variable
 
 public class Main {
 
@@ -27,33 +27,7 @@ public class Main {
 }
 
 
-// Definición de la clase Menu
-class Menu {
-    private String literal;
-    private String decoracion;
-    private String opcion;
 
-    // Constructor de la clase Menu
-    public Menu(String literal, String decoracion, String opcion) {
-        this.literal = literal;
-        this.decoracion = decoracion;
-        this.opcion = opcion;
-    }
-
-    // Métodos para obtener los atributos de la clase
-    public String getLiteral() {
-        return literal;
-    }
-
-    
-    public String getDecoracion() {
-        return decoracion;
-    }
-
-    public String getOpcion() {
-        return opcion;
-    }
-}
 
 class InstanciaOpcionMenu {
     int variableAlmacenaUsuario;//Variable del menu
@@ -67,10 +41,10 @@ class InstanciaOpcionMenu {
             variableAlmacenaUsuario = scan.nextInt();
             switch (variableAlmacenaUsuario) {
                 case 1:
-                    // Tu lógica para la opción 1
+                    System.out.println("Opcion 1");
                     break;
                 case 2:
-                    // Tu lógica para la opción 2
+                    System.out.println("Opcion 2");
                     break;
                 case 3:
                     System.out.println("Gracias por usar");
@@ -85,18 +59,18 @@ class InstanciaOpcionMenu {
 
 class menuPrincipalGenerado {
 
-    Menu menuOp[] = new Menu[3];
+    MenuDeOpciones menuOp[] = new MenuDeOpciones[3];
 
     public void generarMenu() {
-        menuOp[0] = new Menu("1", "------", "Ver Articulos");
-        menuOp[1] = new Menu("2", "------", "Ver Carrito");
-        menuOp[2] = new Menu("3", "------", "(Salir)");
+        menuOp[0] = new MenuDeOpciones("1", "------", "Ver Articulos");
+        menuOp[1] = new MenuDeOpciones("2", "------", "Ver Carrito");
+        menuOp[2] = new MenuDeOpciones("3", "------", "(Salir)");
 
         try (FileWriter fw = new FileWriter("MenuRomeroJhonny.txt")) {
-            for (Menu menu : menuOp) {
-                fw.write(menu.getLiteral());
-                fw.write(menu.getDecoracion());
-                fw.write(menu.getOpcion());
+            for (MenuDeOpciones menu : menuOp) {
+                fw.write(menu.getOpcion1());
+                fw.write(menu.getOpcion2());
+                fw.write(menu.getOpcion3());
                 fw.write("\r\n");
             }
         } catch (IOException e) {
@@ -113,4 +87,45 @@ class menuPrincipalGenerado {
             }
         }  
     }
+    
+    
+    
+}
+
+class MenuDeOpciones {
+    String opcion1;
+    String opcion2;
+    String opcion3;
+
+    public MenuDeOpciones(String opcion1, String opcion2, String opcion3) {
+        this.opcion1 = opcion1;
+        this.opcion2 = opcion2;
+        this.opcion3 = opcion3;
+    }
+
+    public String getOpcion1() {
+        return opcion1;
+    }
+
+    public void setOpcion1(String opcion1) {
+        this.opcion1 = opcion1;
+    }
+
+    public String getOpcion2() {
+        return opcion2;
+    }
+
+    public void setOpcion2(String opcion2) {
+        this.opcion2 = opcion2;
+    }
+
+    public String getOpcion3() {
+        return opcion3;
+    }
+
+    public void setOpcion3(String opcion3) {
+        this.opcion3 = opcion3;
+    }
+    
+    
 }
