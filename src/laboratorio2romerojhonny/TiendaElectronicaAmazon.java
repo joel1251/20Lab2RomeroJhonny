@@ -4,66 +4,43 @@ package laboratorio2romerojhonny;
 
 
 public class TiendaElectronicaAmazon {
-    private String nombre;
-    private int dia;
-    private int mes;
-    private int ano;
-    private int idCliente;
+    
+    String nombre;
+    int fecha;
+    int idCliente;
 
-    // Constructor
-    public Tienda(String nombre, int dia, int mes, int ano, int idCliente) {
+    public TiendaElectronicaAmazon(String nombre, int fecha, int idCliente) {
         this.nombre = nombre;
-        this.dia = dia;
-        this.mes = mes;
-        this.ano = ano;
+        this.fecha = fecha;
         this.idCliente = idCliente;
     }
 
-    // Métodos getter
-    public String getNombre() {
+    public String getnombre() {
         return nombre;
     }
 
-    public int getDia() {
-        return dia;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    // Métodos setter
-    public void setNombre(String nombre) {
+    public void setnombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setDia(int dia) {
-        this.dia = dia;
+    public float getfecha() {
+        return fecha;
     }
 
-    public void setMes(int mes) {
-        this.mes = mes;
+    public void setfecha(int fecha) {
+        this.fecha = fecha;
     }
 
-    public void setAno(int ano) {
-        this.ano = ano;
+    public int getidCliente() {
+        return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setidCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-
-    // Funciones
+    
     public void verificarStock() {
-        // Lógica para verificar el stock
+       
         System.out.println("Verificando stock...");
     }
 
@@ -86,4 +63,5 @@ public class TiendaElectronicaAmazon {
         // Lógica para comprobar el sistema
         System.out.println("Comprobando sistema...");
     }
+    
 }
