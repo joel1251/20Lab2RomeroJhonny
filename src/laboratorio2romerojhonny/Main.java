@@ -1,16 +1,19 @@
 package laboratorio2romerojhonny;
 
+import java.io.BufferedReader;
 import java.io.FileReader;//Para leer el archivo txt try catch 
 import java.io.FileWriter;//para escribir en el archivo txt
 import java.io.IOException;//para try catch  
 import java.util.ArrayList;//UtilizamosArreglos
 import java.util.Scanner;//Llamamos para que el usuario ingrese una variable
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
 
 public class Main {
-
     public static void main(String[] args) {
         InstanciaOpcionMenu VariableOpcionMenu = new InstanciaOpcionMenu();
-        ArrayList<String> PortadaArreglo = new ArrayList<>(); // Corregir la creación del ArrayList
+        ArrayList<String> PortadaArreglo = new ArrayList<>();
         PortadaArreglo.add("Universidad de las Fuerzas Armadas Espe");
         PortadaArreglo.add("Nombre: Romero Jhonny");
         PortadaArreglo.add("Curso: 2 A");
@@ -22,18 +25,15 @@ public class Main {
             System.out.println(salidaDeDatos);
         }
 
-        VariableOpcionMenu.MenuDeOpciones(); // Utilizar la variable correcta
+        VariableOpcionMenu.MenuDeOpciones();
     }
 }
 
-
-
-
 class InstanciaOpcionMenu {
-    int variableAlmacenaUsuario;//Variable del menu
+    int variableAlmacenaUsuario;
 
     public void MenuDeOpciones() {
-        Scanner scan = new Scanner(System.in);//Objeto Scanner para obtener la entreda de usuario
+        Scanner scan = new Scanner(System.in);
         do {
             menuPrincipalGenerado menu = new menuPrincipalGenerado();
             menu.generarMenu();
@@ -42,6 +42,8 @@ class InstanciaOpcionMenu {
             switch (variableAlmacenaUsuario) {
                 case 1:
                     System.out.println("Opcion 1");
+                    // Agrega lógica para mostrar información de artículos desde el archivo CSV
+                    mostrarArticulos();
                     break;
                 case 2:
                     System.out.println("Opcion 2");
@@ -55,15 +57,28 @@ class InstanciaOpcionMenu {
             }
         } while (variableAlmacenaUsuario != 3);
     }
+
+    private void mostrarArticulos() {
+        try (BufferedReader br = new BufferedReader(new FileReader("articulos.csv"))) {
+            String linea;
+            System.out.println("Lista de Artículos:");
+
+            while ((linea = br.readLine()) != null) {
+                String[] campos = linea.split(",");
+                System.out.println("Marca/Modelo: " + campos[0] + ", Precio: $" + campos[1]);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo CSV: " + e.getMessage());
+        }
+    }
 }
 
 class menuPrincipalGenerado {
-
     MenuDeOpciones menuOp[] = new MenuDeOpciones[3];
 
     public void generarMenu() {
-        menuOp[0] = new MenuDeOpciones("1", "------", "Ver Articulos");
-        menuOp[1] = new MenuDeOpciones("2", "------", "Ver Carrito");
+        menuOp[0] = new MenuDeOpciones("1", "------", "Articulos");
+        menuOp[1] = new MenuDeOpciones("2", "------", "Carrito");
         menuOp[2] = new MenuDeOpciones("3", "------", "(Salir)");
 
         try (FileWriter fw = new FileWriter("MenuRomeroJhonny.txt")) {
@@ -85,11 +100,8 @@ class menuPrincipalGenerado {
             } catch (IOException e) {
                 System.out.println("Error. " + e.getMessage());
             }
-        }  
+        }
     }
-    
-    
-    
 }
 
 class MenuDeOpciones {
@@ -126,6 +138,4 @@ class MenuDeOpciones {
     public void setOpcion3(String opcion3) {
         this.opcion3 = opcion3;
     }
-    
-    
 }

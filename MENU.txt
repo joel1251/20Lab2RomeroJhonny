@@ -1,3 +1,0 @@
-1------(Comprar Boletos)
-2------(Ver cartelera)
-3------(Salir)
